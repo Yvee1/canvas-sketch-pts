@@ -70,9 +70,14 @@ export class Segment {
         }
         form.strokeOnly(color, weight, "bevel", "round").line([this.a, this.b]);
     }
+
+    setA(x, y){
+        this.a = new Pt(x, y);
+        this.calculateB();
+    }
 }
 
-export class Fish {
+export class Eel {
     constructor(form, x, y, fishLength, numSegments, color){
         this.pos = new Pt(x, y);
         this.amount = numSegments;
@@ -112,5 +117,53 @@ export class Fish {
         }
         this.end = next;
     }
+}
 
+export class Arm {
+    constructor(form, x, y, armLength, numSegments, color){
+        this.segments = [];
+
+        this.pos = new Pt(x, y);
+        this.amount = numSegments;
+        this.len = armLength/numSegments;
+        this.form = form;
+        this.numSegments = numSegments;
+        this.color = color;
+
+        this.segments[0] = new Segment(...this.pos, this.len, 1);
+        
+        for (let i = 1; i < numSegments; i++){
+            this.segments[i] = Segment.spawnAt(this.segments[i-1], this.len, i);
+        }
+    }
+
+    follow(x, y){
+        const target = new Pt(x, y);
+        this.segments[this.numSegments - 1].follow(...target);
+        this.segments[this.numSegments - 1].inverse();
+
+        for (let i = this.numSegments - 2; i >= 0; i--){
+            this.segments[i].follow(...this.segments[i+1].a);
+            this.segments[i].inverse();
+        }
+
+        if (this.attached){
+            this.segments[0].setA(...this.base);
+
+            for (let i = 1; i < this.numSegments; i++){
+                this.segments[i].setA(...this.segments[i-1].b);
+                // console.log(this.segments[i-1].b.x);
+            }
+        }
+    }
+
+    show(){
+        this.segments.forEach(segment => segment.show(this.form, 3, "white"));
+    }
+
+    attach(x, y){
+        this.attached = true;
+        this.base = new Pt(x, y);
+        return this;
+    }
 }

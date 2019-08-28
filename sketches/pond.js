@@ -2,7 +2,7 @@ const canvasSketch = require('canvas-sketch');
 import {Pt, Num} from "pts";
 import {ContextForm, createMouse} from "../helpers.js";
 
-import {Segment, Fish} from "./kinematics.js"
+import {Eel} from "./kinematics.js"
 
 const settings = {
   dimensions: [512,  512],
@@ -17,8 +17,8 @@ const sketch = ({ canvas, context, width, height }) => {
   form.background("azure");
   const center = new Pt([width/2, height/2]);
 
-  const fish = new Fish(form, ...center, 300, 50);
-  const fish2 = new Fish(form, width-100, height, 300, 50, "deeppink");
+  const eel1 = new Eel(form, ...center, 300, 50);
+  const eel2 = new Eel(form, width-100, height, 300, 50, "deeppink");
   let pause = false;
   let count = 0;
 
@@ -51,8 +51,8 @@ const sketch = ({ canvas, context, width, height }) => {
     const tx = width/2 + x * 150;
     const ty = height/2 + y * 150;
 
-    fish.follow(tx, ty);
-    fish2.follow(width-tx, ty);
+    eel1.follow(tx, ty);
+    eel2.follow(width-tx, ty);
     }
     console.log(playhead);
     // form.point([tx, ty], 10, "circle");

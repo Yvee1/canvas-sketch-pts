@@ -60,10 +60,57 @@ export class Segment {
         this.calculateB();
     }
 
-    show(form, weight){
+    show(form, weight, color){
         if (!weight){
             weight = 5;
         }
-        form.strokeOnly("#09f", weight, "bevel", "round").line([this.a, this.b]);
+
+        if (!color){
+            color = "#09f";
+        }
+        form.strokeOnly(color, weight, "bevel", "round").line([this.a, this.b]);
     }
+}
+
+export class Fish {
+    constructor(form, x, y, fishLength, numSegments, color){
+        this.pos = new Pt(x, y);
+        this.amount = numSegments;
+        this.len = fishLength/numSegments;
+        this.form = form;
+        this.numSegments = numSegments;
+        this.color = color;
+
+        let current = new Segment(...this.pos, this.len, 1);
+        
+        this.end = current;
+
+        for (let i = 0; i < numSegments; i++){
+            const next = Segment.spawnAt(current, this.len, i+1);
+            current = next;
+        }
+
+        this.head = current;
+    }
+
+    follow(x, y){
+        const target = new Pt(x, y);
+        this.head.follow(...target);
+        this.head.inverse();
+        this.head.show(this.form, 15, this.color);
+        let next = this.head.parent;
+        while (true) {
+            next.follow(...next.child.a)
+            next.inverse();
+            next.show(this.form, Num.lerp(1, 15, next.i/this.numSegments), this.color);
+
+            if (next.parent === null){
+                break;
+            } else{
+                next = next.parent;
+            }
+        }
+        this.end = next;
+    }
+
 }

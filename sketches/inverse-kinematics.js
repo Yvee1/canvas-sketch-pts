@@ -2,7 +2,7 @@ const canvasSketch = require('canvas-sketch');
 import {Pt, Num} from "pts";
 import {ContextForm, createMouse} from "../helpers.js";
 
-import {Segment} from "./segment.js"
+import {Segment} from "./kinematics.js"
 
 const settings = {
   dimensions: [1024,  1024],

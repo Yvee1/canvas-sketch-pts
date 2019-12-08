@@ -12,7 +12,9 @@
   "dependencies": {
     "canvas-sketch": "^0.6.1",
     "canvas-sketch-util": "^1.8.0",
+    "dat.gui": "^0.7.6",
     "nice-color-palettes": "^3.0.0",
+    "pixi.js": "^5.1.5",
     "pts": "^0.8.8"
   }
 }

@@ -9,3 +9,5 @@ My experiments with combining [canvas-sketch](https://github.com/mattdesl/canvas
 ![two snake like creatures moving in a pattern](output/pond.gif)
 ### Arms
 ![undulating shape](output/arms.gif)
+### Alchemy
+![alchemy circle with rotating blobs](output/alchemy.gif)
